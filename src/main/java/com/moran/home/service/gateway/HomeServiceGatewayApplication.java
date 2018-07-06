@@ -19,15 +19,14 @@ public class HomeServiceGatewayApplication {
 	private Bus bus;
 
 	@Bean
-    public Server rsServer() {
-        JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
-        endpoint.setBus(bus);
-        endpoint.setAddress("/");
-        endpoint.setServiceBeans(Arrays.<Object>asList(new ProviderServiceImpl()));
-        return endpoint.create();
-    }
-	
-	
+	public Server rsServer() {
+		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
+		endpoint.setBus(bus);
+		endpoint.setAddress("/");
+		endpoint.setServiceBeans(Arrays.<Object>asList(new ProviderServiceImpl()));
+		return endpoint.create();
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(HomeServiceGatewayApplication.class, args);
 	}

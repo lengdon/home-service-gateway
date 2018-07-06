@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
 
-import com.moran.home.service.entity.provider.ServiceProvider;
+import com.moran.home.service.gateway.models.ServiceProvider;
 
 @Service
 @Path("/provider")
@@ -18,6 +18,7 @@ public interface ProviderService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{providerEmailOrMobile}")
 	public Response getServiceProvider(@PathParam("providerEmailOrMobile") String providerEmailOrMobile);
 
 	@POST
