@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
 
-import com.moran.home.service.gateway.models.ServiceProvider;
+import com.moran.home.service.entity.provider.ServiceProvider;
 
 @Service
 @Path("/provider")

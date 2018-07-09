@@ -8,13 +8,12 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import com.moran.home.service.constants.HsConstants;
+import com.moran.home.service.entity.provider.ServiceProvider;
 import com.moran.home.service.exceptions.GatewayException;
 import com.moran.home.service.gateway.api.ProviderService;
-import com.moran.home.service.gateway.models.ServiceProvider;
+import com.moran.home.service.gateway.delegate.ProviderServiceDelegate;
 import com.moran.home.service.utils.WsUtils;
 
 @Component
@@ -22,18 +21,18 @@ public class ProviderServiceImpl implements ProviderService {
 	private static final Logger logger = LoggerFactory.getLogger(ProviderServiceImpl.class);
 
 	@Autowired
-	private JmsTemplate jmsTemplate;
+	private ProviderServiceDelegate providerServiceDelegate;
 
 	@Override
 	public Response getServiceProvider(String providerEmailOrMobile) {
-		logger.info("APIs are working,,,,,,,,,,,,,,,,,,,,,,,,,,," + providerEmailOrMobile);
+		logger.debug("Fetching Provider detail");
 		return WsUtils.createSuccessRsResponse(Response.ok(), "Hi", WsUtils.HTTP_SUCCESS);
 	}
 
 	@Override
 	public Response registerServiceProvider(ServiceProvider providerUser) {
 		try {
-			jmsTemplate.convertAndSend(HsConstants.PROVIDER_REQUEST_ACCEPT_QUEUE, providerUser);
+			providerServiceDelegate.sendRegistrationToQueue(providerUser);
 			Map<String, String> selfLinks = new HashMap<>();
 			selfLinks.put("rel", "provider");
 			selfLinks.put("href", "/provider/" + providerUser.getEmail());
